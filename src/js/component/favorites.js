@@ -1,16 +1,28 @@
-import React, {useContext, useState, useEffect} from "react";
-import {Context} from "../store/appContext.js"
+import React, { useContext } from "react";
+import { Context } from "../store/appContext.js";
 
-export const Favorites = (props) => {
+export const Favorites = () => {
     const { store, actions } = useContext(Context);
-    const [state, setState] = useState({});
 
-    function deleteFavorite(e) {
-        actions.erraseFavorite(props.name)
+    function deleteFavorite(index) {
+        actions.deleteFavorite(index);
     }
+
     return (
-        <div className="div-flex justify-content-between">
-            {props.name}<button onClick={deleteFavorite} className="btn-close"></button>
+        <div className="container">
+            <h1>Favorites</h1>
+            {store.favoritesList.map((favorite, index) => {
+                return (
+                    <div key={index} className="card" style={{ width: "18rem" }}>
+                        <div className="card-body">
+                            <h5 className="card-title">{favorite}</h5>
+                            <a onClick={() => deleteFavorite(index)} href="#" className="btn btn-outline-danger">
+                                Delete
+                            </a>
+                        </div>
+                    </div>
+                );
+            })}
         </div>
     );
-}
+};
